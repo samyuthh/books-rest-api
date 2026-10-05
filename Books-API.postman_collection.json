@@ -1,0 +1,67 @@
+{
+  "info": {
+    "_postman_id": "f086dbe4-3bea-48b7-9f69-4c04e8267199",
+    "name": "Books REST API - CRUD Demo",
+    "description": "Run the requests in order to demonstrate all CRUD operations. Start the API first with npm start.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "bookId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "1. Create a book (POST)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"The Hobbit\",\n  \"author\": \"J. R. R. Tolkien\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "{{baseUrl}}/books",
+        "description": "Expected: 201 Created. The response includes the new book and its id."
+      },
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "if (pm.response.code === 201) {",
+          "  pm.collectionVariables.set('bookId', pm.response.json().id);",
+          "}",
+          "pm.test('Book created with 201', function () { pm.response.to.have.status(201); });"
+        ] }
+      }]
+    },
+    {
+      "name": "2. List all books (GET)",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/books", "description": "Expected: 200 OK and an array containing The Hobbit." }
+    },
+    {
+      "name": "3. Get one book (GET)",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/books/{{bookId}}", "description": "Expected: 200 OK and the created book." }
+    },
+    {
+      "name": "4. Update the book (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"The Hobbit (Updated)\",\n  \"author\": \"J. R. R. Tolkien\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": "{{baseUrl}}/books/{{bookId}}",
+        "description": "Expected: 200 OK and the updated title."
+      }
+    },
+    {
+      "name": "5. Delete the book (DELETE)",
+      "request": { "method": "DELETE", "header": [], "url": "{{baseUrl}}/books/{{bookId}}", "description": "Expected: 204 No Content." }
+    },
+    {
+      "name": "6. Confirm deletion (GET)",
+      "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/books/{{bookId}}", "description": "Expected: 404 Not Found after deletion." }
+    }
+  ]
+}
