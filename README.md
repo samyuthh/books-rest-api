@@ -41,3 +41,23 @@ Create a REST API to manage a list of books using Node.js and Express.
   "title": "Atomic Habits",
   "author": "James Clear"
 }
+
+## API Testing Evidence
+
+The REST API was tested using Postman for all CRUD operations.
+
+### GET - Read Books
+
+![GET Request](screenshots/get.png)
+
+### POST - Add Book
+
+![POST Request](screenshots/post.png)
+
+### PUT - Update Book
+
+![PUT Request](screenshots/put.png)
+
+### DELETE - Delete Book
+
+![DELETE Request](screenshots/delete.png)
